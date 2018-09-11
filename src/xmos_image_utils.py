@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """
 Binary image data utilities for XMOS devices.
 - MSB-to-LSB transformation of binary image file.
@@ -7,6 +7,15 @@ Binary image data utilities for XMOS devices.
 """
 import argparse
 import os
+
+
+test_xxd = ' '.join(['xxd', '-v'])  # Cant find xxd for raspberry
+if os.system(test_xxd) == 0:
+    XXD_EXISTS = True
+else:
+    print('xxd seems not to exists on this machine. Will not be able to run option --header')
+    XXD_EXISTS = False
+
 
 # ref: https://www.raspberrypi.org/forums/viewtopic.php?t=36288
 # Reverse table is used because we don't know how to change bit-order on SPI settings
@@ -49,6 +58,9 @@ def read_file(fname):
 
 
 def generate_header_file(src, dst):
+    if not XXD_EXISTS:
+        print('ERROR. CAnt generate header file - xxd is missing.')
+        return
     cmd = ' '.join(['xxd', '-i', '<', src, '>', dst])
     os.system(cmd)
 # END I/O
