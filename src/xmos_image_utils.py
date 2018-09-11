@@ -111,4 +111,4 @@ if __name__ == '__main__':
     img = msb_to_lsb(read_bin_file(args.src))
     write_bin_file(fname=args.dst, data=img)
     if args.header:
-        generate_header_file(src=args.src, dst=args.header)
+        generate_header_file(src=args.dst, dst=args.header)
